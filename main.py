@@ -32,10 +32,16 @@ def create_DataFrame(annotation: str) -> None:
     print("\n Статистика по классам:")
     print(class_stats)
 
-    is_balanced = abs(class_stats[0] - class_stats[1]) <= 1
-    print("\n Набор данных является сбалансированным:", is_balanced)
+    is_balanced = False
+    if abs(class_stats["leopard"] - class_stats["tiger"]) <= 1:
+        is_balanced = True
 
+    print("\n Набор данных является сбалансированным:", is_balanced)
     df = filter_DataFrame(df, 0)
+
+    print(df)
+
+    df = filter_DataFrame_by_task(df, 0, image_size_stats["height"]["max"], image_size_stats["width"]["max"])
 
     print(df)
 
@@ -48,6 +54,10 @@ def get_image_properties(img_path: str) -> int:
 def filter_DataFrame(df: pd.DataFrame, mark: int) -> pd.DataFrame:
     sorted_df = df.sort_values(by = "mark")
     return  sorted_df[sorted_df["mark"] == mark].reset_index(drop=True)
+
+def filter_DataFrame_by_task(df: pd.DataFrame, mark: int, max_width: int, max_height: int) -> pd.DataFrame:
+    sorted_df = filter_DataFrame(df, mark)
+    return sorted_df[(sorted_df["width"] <= max_width) & (sorted_df["height"] <= max_height)].reset_index(drop=True)
 
 def main() -> None:
     create_DataFrame("D:\\python_labs\\datas\\annotation.csv")
