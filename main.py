@@ -1,6 +1,8 @@
 
 import pandas as pd
 import cv2
+import random
+from matplotlib import pyplot as plt
 
 # tiger = 0 leopard = 1
 
@@ -46,7 +48,8 @@ def create_DataFrame(annotation: str) -> None:
     df = grouping_DataFrame(df, 0)
 
     print(df)
-
+    
+    create_hustogram(df, 0)
 
 def get_image_properties(img_path: str) -> int:
     image = cv2.imread(img_path)
@@ -69,6 +72,14 @@ def grouping_DataFrame(df: pd.DataFrame, mark: int) -> pd.DataFrame:
     grouped_df_pixels = df['number_of_pixels'].agg(['min', 'max', 'mean'])
     print(grouped_df_pixels)
     return df    
+
+
+def create_hustogram(df: pd.DataFrame, mark: int) -> None:
+    filter_DataFrame(df, mark)
+    arr = df["Directory"].tolist()
+    random.shuffle(arr)
+
+     
 
 def main() -> None:
     create_DataFrame("D:\\python_labs\\datas\\annotation.csv")
