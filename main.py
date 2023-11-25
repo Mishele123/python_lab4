@@ -4,8 +4,7 @@ import cv2
 
 # tiger = 0 leopard = 1
 
-def create_DataFrame(annotation: str) -> None:
-    
+def create_DataFrame(annotation: str) -> None: 
     df = pd.DataFrame(columns=["ClassName", "Directory"])
 
     with open(annotation, "r", encoding="utf-8") as file:
@@ -44,6 +43,11 @@ def create_DataFrame(annotation: str) -> None:
 
     print(df)
 
+    df = grouping_DataFrame(df, 0)
+
+    print(df)
+
+
 def get_image_properties(img_path: str) -> int:
     image = cv2.imread(img_path)
     height, width, channels = image.shape
@@ -59,6 +63,12 @@ def filter_DataFrame_by_task(df: pd.DataFrame, mark: int, max_width: int, max_he
     sorted_df = df.sort_values(by = ["height", "width"])
     return sorted_df[(sorted_df["height"] <= max_height) & (sorted_df["width"] <= max_width)].reset_index(drop=True)
 
+def grouping_DataFrame(df: pd.DataFrame, mark: int) -> pd.DataFrame:
+    df = filter_DataFrame(df, mark)
+    df["number_of_pixels"] = df["height"] * df["width"] * df["channels"]
+    grouped_df_pixels = df['number_of_pixels'].agg(['min', 'max', 'mean'])
+    print(grouped_df_pixels)
+    return df    
 
 def main() -> None:
     create_DataFrame("D:\\python_labs\\datas\\annotation.csv")
