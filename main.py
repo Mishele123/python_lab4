@@ -22,8 +22,16 @@ def create_DataFrame(annotation: str) -> None:
 
     # Создаем столбцы с размерами изображений
     df[["height", "width", "channels"]] = df["Directory"].apply(lambda x: pd.Series(get_image_properties(x)))
-
     print(df)
+
+    image_size_stats = df[["height", "width", "channels"]].describe()
+    class_stats = df["ClassName"].value_counts()
+
+    print("Статистика по размерам изображений:")
+    print(image_size_stats)
+    print("\nСтатистика по классам:")
+    print(class_stats)
+
 
 def get_image_properties(img_path: str) -> int:
     image = cv2.imread(img_path)
