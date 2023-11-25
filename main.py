@@ -113,6 +113,7 @@ def show_histogram(df: pd.DataFrame, mark: int) -> None:
 
 
 def main() -> None:
+    # Путь к аннотации
     create_DataFrame("D:\\python_labs\\datas\\annotation.csv")
 
 
