@@ -6,7 +6,6 @@ import cv2
 
 def create_DataFrame(annotation: str) -> None:
     
-
     df = pd.DataFrame(columns=["ClassName", "Directory"])
 
     with open(annotation, "r", encoding="utf-8") as file:
@@ -41,7 +40,7 @@ def create_DataFrame(annotation: str) -> None:
 
     print(df)
 
-    df = filter_DataFrame_by_task(df, 0, image_size_stats["height"]["max"], image_size_stats["width"]["max"])
+    df = filter_DataFrame_by_task(df, 0, image_size_stats["width"]["max"], image_size_stats["height"]["max"])
 
     print(df)
 
@@ -57,7 +56,9 @@ def filter_DataFrame(df: pd.DataFrame, mark: int) -> pd.DataFrame:
 
 def filter_DataFrame_by_task(df: pd.DataFrame, mark: int, max_width: int, max_height: int) -> pd.DataFrame:
     sorted_df = filter_DataFrame(df, mark)
-    return sorted_df[(sorted_df["width"] <= max_width) & (sorted_df["height"] <= max_height)].reset_index(drop=True)
+    sorted_df = df.sort_values(by = ["height", "width"])
+    return sorted_df[(sorted_df["height"] <= max_height) & (sorted_df["width"] <= max_width)].reset_index(drop=True)
+
 
 def main() -> None:
     create_DataFrame("D:\\python_labs\\datas\\annotation.csv")
