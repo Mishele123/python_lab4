@@ -49,7 +49,8 @@ def create_DataFrame(annotation: str) -> None:
 
     print(df)
     
-    create_hustogram(df, 0)
+    # Функция вывода гистограмм
+    show_histogram(create_histogram(df, 0))
 
 def get_image_properties(img_path: str) -> int:
     image = cv2.imread(img_path)
@@ -74,7 +75,8 @@ def grouping_DataFrame(df: pd.DataFrame, mark: int) -> pd.DataFrame:
     return df    
 
 
-def create_hustogram(df: pd.DataFrame, mark: int) -> []:
+
+def create_histogram(df: pd.DataFrame, mark: int) -> []:
     filter_DataFrame(df, mark)
     arr = df["Directory"].tolist()
     random.shuffle(arr)
@@ -95,8 +97,10 @@ def create_hustogram(df: pd.DataFrame, mark: int) -> []:
         histograms_g.append(hist_g)
         histograms_r.append(hist_r)
 
-    print(histograms_b, histograms_g, histograms_r)
-    return histograms_b, histograms_g, histograms_r
+    return histograms_b, histograms_g, histograms_r, arr
+
+def show_histogram(histograms_b: [], histograms_g: [], histograms_r: []) -> None:
+    print("Hello")
 
 def main() -> None:
     create_DataFrame("D:\\python_labs\\datas\\annotation.csv")
