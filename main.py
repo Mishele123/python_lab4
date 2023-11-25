@@ -50,7 +50,7 @@ def create_DataFrame(annotation: str) -> None:
     print(df)
     
     # Функция вывода гистограмм
-    show_histogram(create_histogram(df, 0))
+    show_histogram(df, 0)
 
 def get_image_properties(img_path: str) -> int:
     image = cv2.imread(img_path)
@@ -76,7 +76,7 @@ def grouping_DataFrame(df: pd.DataFrame, mark: int) -> pd.DataFrame:
 
 
 
-def create_histogram(df: pd.DataFrame, mark: int) -> []:
+def create_histogram(df: pd.DataFrame, mark: int) -> None:
     filter_DataFrame(df, mark)
     arr = df["Directory"].tolist()
     random.shuffle(arr)
@@ -99,8 +99,18 @@ def create_histogram(df: pd.DataFrame, mark: int) -> []:
 
     return histograms_b, histograms_g, histograms_r, arr
 
-def show_histogram(histograms_b: [], histograms_g: [], histograms_r: []) -> None:
-    print("Hello")
+def show_histogram(df: pd.DataFrame, mark: int) -> None:
+    histograms_b, histograms_g, histograms_r, arr = create_histogram(df, mark)
+
+    for a in range(len(histograms_b)):
+        plt.plot(histograms_b[a], color="b")
+        plt.plot(histograms_g[a], color="g")
+        plt.plot(histograms_r[a], color="r")
+        plt.suptitle(f"Гистограмма для картинки: {arr[a]}")
+        plt.xlabel('Pixel Intensity')
+        plt.ylabel('Frequency')
+        plt.show()
+
 
 def main() -> None:
     create_DataFrame("D:\\python_labs\\datas\\annotation.csv")
