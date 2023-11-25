@@ -29,14 +29,25 @@ def create_DataFrame(annotation: str) -> None:
 
     print("Статистика по размерам изображений:")
     print(image_size_stats)
-    print("\nСтатистика по классам:")
+    print("\n Статистика по классам:")
     print(class_stats)
 
+    is_balanced = abs(class_stats[0] - class_stats[1]) <= 1
+    print("\n Набор данных является сбалансированным:", is_balanced)
+
+    df = filter_DataFrame(df, 0)
+
+    print(df)
 
 def get_image_properties(img_path: str) -> int:
     image = cv2.imread(img_path)
     height, width, channels = image.shape
     return height, width, channels
+
+
+def filter_DataFrame(df: pd.DataFrame, mark: int) -> pd.DataFrame:
+    sorted_df = df.sort_values(by = "mark")
+    return  sorted_df[sorted_df["mark"] == mark].reset_index(drop=True)
 
 def main() -> None:
     create_DataFrame("D:\\python_labs\\datas\\annotation.csv")
