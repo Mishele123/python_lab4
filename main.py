@@ -74,12 +74,29 @@ def grouping_DataFrame(df: pd.DataFrame, mark: int) -> pd.DataFrame:
     return df    
 
 
-def create_hustogram(df: pd.DataFrame, mark: int) -> None:
+def create_hustogram(df: pd.DataFrame, mark: int) -> []:
     filter_DataFrame(df, mark)
     arr = df["Directory"].tolist()
     random.shuffle(arr)
 
-     
+    histograms_b = []
+    histograms_g = []
+    histograms_r = []
+
+    for item in arr:
+        image = cv2.imread(item)
+        b, g, r = cv2.split(image)
+        
+        hist_b = cv2.calcHist([b], [0], None, [256], [0, 256])
+        hist_g = cv2.calcHist([g], [0], None, [256], [0, 256])
+        hist_r = cv2.calcHist([r], [0], None, [256], [0, 256])
+
+        histograms_b.append(hist_b)
+        histograms_g.append(hist_g)
+        histograms_r.append(hist_r)
+
+    print(histograms_b, histograms_g, histograms_r)
+    return histograms_b, histograms_g, histograms_r
 
 def main() -> None:
     create_DataFrame("D:\\python_labs\\datas\\annotation.csv")
