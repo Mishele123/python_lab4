@@ -83,7 +83,7 @@ def grouping_DataFrame(df: pd.DataFrame, mark: int) -> pd.DataFrame:
 
 
 def create_histogram(df: pd.DataFrame, mark: int) -> None:
-    "Create histogram"
+    "Create histogram and return histograms arrays"
     filter_DataFrame(df, mark)
     arr = df["Directory"].tolist()
     random.shuffle(arr)
@@ -107,7 +107,7 @@ def create_histogram(df: pd.DataFrame, mark: int) -> None:
     return histograms_b, histograms_g, histograms_r, arr
 
 def show_histogram(df: pd.DataFrame, mark: int) -> None:
-    "Show histogram"
+    "Function Show histogram"
     histograms_b, histograms_g, histograms_r, arr = create_histogram(df, mark)
 
     for a in range(len(histograms_b)):
