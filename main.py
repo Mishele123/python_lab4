@@ -52,7 +52,6 @@ def create_DataFrame(annotation: str) -> None:
 
     print(df)
     
-    # Функция вывода гистограмм
     show_histogram(df, 0)
 
 def get_image_properties(img_path: str) -> int:
