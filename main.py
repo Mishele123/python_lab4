@@ -6,7 +6,8 @@ from matplotlib import pyplot as plt
 
 # tiger = 0 leopard = 1
 
-def create_DataFrame(annotation: str) -> None: 
+def create_DataFrame(annotation: str) -> None:
+    "Main function"
     df = pd.DataFrame(columns=["ClassName", "Directory"])
 
     with open(annotation, "r", encoding="utf-8") as file:
@@ -56,21 +57,25 @@ def create_DataFrame(annotation: str) -> None:
     show_histogram(df, 0)
 
 def get_image_properties(img_path: str) -> int:
+    "returns the height, width and channels of the image"
     image = cv2.imread(img_path)
     height, width, channels = image.shape
     return height, width, channels
 
 
 def filter_DataFrame(df: pd.DataFrame, mark: int) -> pd.DataFrame:
+    "Function sort dataframe by mark"
     sorted_df = df.sort_values(by = "mark")
     return  sorted_df[sorted_df["mark"] == mark].reset_index(drop=True)
 
 def filter_DataFrame_by_task(df: pd.DataFrame, mark: int, max_width: int, max_height: int) -> pd.DataFrame:
+    "Function sorts dataframe by height and width"
     sorted_df = filter_DataFrame(df, mark)
     sorted_df = df.sort_values(by = ["height", "width"])
     return sorted_df[(sorted_df["height"] <= max_height) & (sorted_df["width"] <= max_width)].reset_index(drop=True)
 
 def grouping_DataFrame(df: pd.DataFrame, mark: int) -> pd.DataFrame:
+    "Function counts the number of pixels"
     df = filter_DataFrame(df, mark)
     df["number_of_pixels"] = df["height"] * df["width"] * df["channels"]
     grouped_df_pixels = df['number_of_pixels'].agg(['min', 'max', 'mean'])
@@ -80,6 +85,7 @@ def grouping_DataFrame(df: pd.DataFrame, mark: int) -> pd.DataFrame:
 
 
 def create_histogram(df: pd.DataFrame, mark: int) -> None:
+    "Create histogram"
     filter_DataFrame(df, mark)
     arr = df["Directory"].tolist()
     random.shuffle(arr)
@@ -103,6 +109,7 @@ def create_histogram(df: pd.DataFrame, mark: int) -> None:
     return histograms_b, histograms_g, histograms_r, arr
 
 def show_histogram(df: pd.DataFrame, mark: int) -> None:
+    "Show histogram"
     histograms_b, histograms_g, histograms_r, arr = create_histogram(df, mark)
 
     for a in range(len(histograms_b)):
