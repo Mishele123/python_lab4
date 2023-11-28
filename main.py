@@ -7,7 +7,7 @@ from matplotlib import pyplot as plt
 # tiger = 0 leopard = 1
 
 def create_DataFrame(annotation: str) -> None:
-    "Main function"
+    "Main function tiger mark = 0 leopard mark = 1"
     df = pd.DataFrame(columns=["ClassName", "Directory"])
 
     with open(annotation, "r", encoding="utf-8") as file:
@@ -38,8 +38,7 @@ def create_DataFrame(annotation: str) -> None:
         is_balanced = True
 
     print("\n Набор данных является сбалансированным:", is_balanced)
-    # Для леопардов
-    # show_histogram(df, 1)
+
 
     df = filter_DataFrame(df, 0)
 
